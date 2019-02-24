@@ -5,12 +5,6 @@ from random import randint, random
 from numpy import sin, cos, pi, power
 
 def points():
-    # print('draw points')
-    # Clear the color and depth buffers
-    # left = (width - cube_size) / 2
-    # right = left + cube_size
-    # bottom = (height - cube_size) / 2
-    # top = bottom + cube_size
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT
     glPointSize(10)
@@ -52,22 +46,6 @@ def lines():
     glColor3d(0,0,255) 
     glVertex2f(width*0.95,height*0.05)
     glEnd()
-    
-    # glLineWidth(5)
-    # glEnable(GL_LINE_SMOOTH)
-    # glEnable(GL_LINE_STIPPLE)
-    # glLineStipple(2,58360)   
-    # glBegin(GL_LINE_LOOP)
-    # glColor3d(1,0,0)
-    # glVertex3d(1,3,0)
-    # glVertex3d(4,3,0)
-    # glColor3d(0,1,0)
-    # glVertex3d(3,2.7,0)
-    # glColor3d(0,0,1)
-    # glVertex3d(2.5,3.7,0)
-    # glEnd()
-    # glDisable(GL_LINE_SMOOTH)
-    # glDisable(GL_LINE_STIPPLE)
     glFinish()
 
 
@@ -142,7 +120,7 @@ def triangles_strip():
     glClear(GL_COLOR_BUFFER_BIT)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(3)
-    glEnable(GL_POINT_SMOOTH)
+    
     glBegin(GL_TRIANGLE_STRIP)
 
     glColor3d(255,0,0)
@@ -180,13 +158,11 @@ def triangles_strip():
     glColor3d(255,0,255)
     glVertex2d(9*x_scale,12*y_scale)
 
-
     glEnd()
-    glDisable(GL_POINT_SMOOTH)
     glFinish()
 
-def triangle_fan():
 
+def triangle_fan():
     glClearColor(255, 255, 255, 1)
     width = glutGet(GLUT_WINDOW_WIDTH)
     height = glutGet(GLUT_WINDOW_HEIGHT)
@@ -194,14 +170,12 @@ def triangle_fan():
     y_center = height/2
     x_radius = width*0.2
     y_radius = height*0.2
-    # print(width, x_center, x_radius, x_step)
-    # print(height, y_center, y_radius, y_step)
     glClear(GL_COLOR_BUFFER_BIT)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(1)
     glEnable(GL_POINT_SMOOTH)
     glBegin(GL_TRIANGLE_FAN)
-    quantity = randint(5,30)
+    quantity = 12
     glColor3d(255, 0, 0)
     glVertex2f(x_center, y_center)
     for i in range(quantity):
@@ -210,4 +184,100 @@ def triangle_fan():
 
     glEnd()
     glDisable(GL_POINT_SMOOTH)
+    glFinish()
+
+
+def quads():
+    glClearColor(255, 255, 255, 1)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glLineWidth(1)
+    glBegin(GL_QUADS)
+    width = glutGet(GLUT_WINDOW_WIDTH)
+    height = glutGet(GLUT_WINDOW_HEIGHT)
+    glColor3d(255, 0, 0)
+    glVertex2f(0.1*width, 0.1*height)
+    glVertex2f(0.1*width, 0.2*height)
+    glVertex2f(0.2*width, 0.4*height)
+    glVertex2f(0.2*width, 0.1*height)
+    
+    glColor3d(0, 255, 0)
+    glVertex2f(0.5*width, 0.6*height)
+    glVertex2f(0.6*width, 0.8*height)
+    glVertex2f(0.8*width, 0.8*height)
+    glVertex2f(0.8*width, 0.6*height)
+
+    glColor3d(0, 0, 255)
+    glVertex2f(0.2*width, 0.4*height)
+    glVertex2f(0.25*width, 0.55*height)
+    glVertex2f(0.5*width, 0.6*height)
+    glVertex2f(0.6*width, 0.2*height)
+
+    glEnd()
+    glFinish()
+
+
+
+def quad_strip():
+    glClearColor(255, 255, 255, 1)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glLineWidth(1)
+    glBegin(GL_QUAD_STRIP)
+    width = glutGet(GLUT_WINDOW_WIDTH)
+    height = glutGet(GLUT_WINDOW_HEIGHT)
+    glColor3d(255, 0, 0)
+    glVertex2f(0.1*width, 0.1*height)
+    glVertex2f(0.1*width, 0.2*height)
+    glVertex2f(0.2*width, 0.1*height)
+    glVertex2f(0.2*width, 0.4*height)
+    glColor3d(255, 255, 0)
+    glVertex2f(0.4*width, 0.2*height)
+    glVertex2f(0.4*width, 0.4*height)
+    glColor3d(0, 255, 0)
+    glVertex2f(0.6*width, 0.45*height)
+    glVertex2f(0.5*width, 0.45*height)
+    glColor3d(0, 255, 255)
+    glVertex2f(0.9*width, 0.55*height)
+    glVertex2f(0.8*width, 0.55*height)
+    glColor3d(0, 0, 255)
+    glVertex2f(0.8*width, 0.8*height)
+    glVertex2f(0.7*width, 0.7*height)
+    glColor3d(255, 0, 255)
+    glVertex2f(0.4*width, 0.8*height)
+    glVertex2f(0.3*width, 0.5*height)
+
+    glEnd()
+    glFinish()
+
+
+def polygon():
+    glClearColor(255, 255, 255, 1)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glLineWidth(1)
+    glBegin(GL_POLYGON)
+    width = glutGet(GLUT_WINDOW_WIDTH)
+    height = glutGet(GLUT_WINDOW_HEIGHT)
+    glColor3d(255, 0, 0)
+    glVertex2f(0.1*width, 0.2*height)
+    glVertex2f(0.1*width, 0.1*height)
+    glVertex2f(0.2*width, 0.1*height)
+    glColor3d(255, 255, 0)
+    glVertex2f(0.4*width, 0.2*height)
+    glVertex2f(0.4*width, 0.4*height)
+    glColor3d(0, 255, 0)
+    glVertex2f(0.6*width, 0.45*height)
+    glVertex2f(0.5*width, 0.45*height)
+    glColor3d(0, 255, 255)
+    glVertex2f(0.9*width, 0.55*height)
+    glVertex2f(0.8*width, 0.55*height)
+    glColor3d(0, 0, 255)
+    glVertex2f(0.8*width, 0.8*height)
+    glVertex2f(0.7*width, 0.7*height)
+    glColor3d(255, 0, 255)
+    glVertex2f(0.4*width, 0.8*height)
+    glVertex2f(0.3*width, 0.5*height)
+
+    glEnd()
     glFinish()
