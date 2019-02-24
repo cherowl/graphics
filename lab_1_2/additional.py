@@ -5,6 +5,20 @@ from OpenGL.GLUT import *
 
 ESCAPE = b'\x1b'
 
+def mouse(button, state, x, y):
+    # if state == GLUT_DOWN:
+    #     if button == GLUT_LEFT_BUTTON:
+    #         print('left down')
+    #     elif button == GLUT_RIGHT_BUTTON:
+    #         print('right down')
+    # elif state == GLUT_UP:
+    #     if button == GLUT_LEFT_BUTTON:
+    #         print('left up')
+    #     elif button == GLUT_RIGHT_BUTTON:
+    #         print('right up')
+    pass
+
+
 def keyboard(key, x, y):
     if key == ESCAPE:
         exit(0)
