@@ -37,7 +37,7 @@ class Ui_GLInterface(object):
         _translate = QtCore.QCoreApplication.translate
         GLInterface.setWindowTitle(_translate("GLInterface", "Lab 1. Dobrohvalov (6303), Cherkasova (6382)"))
 
-        self.comboBox.setItemText(0, _translate("GLInterface", "GL_POINT"))
+        self.comboBox.setItemText(0, _translate("GLInterface", "GL_POINTS"))
         self.comboBox.setItemText(1, _translate("GLInterface", "GL_LINES"))
         self.comboBox.setItemText(2, _translate("GLInterface", "GL_LINE_STRIP"))
         self.comboBox.setItemText(3, _translate("GLInterface", "GL_LINE_LOOP"))
