@@ -1,29 +1,26 @@
-from sys import argv
-from OpenGL.GL import *
-from OpenGL.GLU import *
-from OpenGL.GLUT import *
-from additional import keyboard, mouse, reshape
-import lab1
-import lab2
-width = 512
-height = 512
+# -*- coding: utf-8 -*-
 
-if __name__ == '__main__':
+import sys  # sys нужен для передачи argv в QApplication
+from PyQt5 import QtWidgets, QtGui
 
-    glutInit(argv)
-    # Create a double-buffer RGBA window.   (Single-buffering is possible.
-    # So is creating an index-mode window.)
-    glutInitDisplayMode(GLUT_RGBA) #GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH
-    glutInitWindowSize(width, height)
-    # Create a window, setting its title
-    glutCreateWindow('Lab_1&2')
+import design
 
-    # Set the display callback.  You can set other callbacks for keyboard and
-    # mouse events.
-    glutDisplayFunc(lab2.alpha)
-    glutReshapeFunc(reshape)
-    glutKeyboardFunc(keyboard)
-    glutMouseFunc(mouse)
+class GLInterface(QtWidgets.QMainWindow, design.Ui_GLInterface):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.comboBox.activated[str].connect(self.onActivated)
 
-    # Run the GLUT main loop until the user closes the window.
-    glutMainLoop()
+    def onActivated(self, text):
+        self.openGLWidget.changeFigure(text)
+        self.openGLWidget.updateGL()
+
+def main():
+    app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
+    window = GLInterface()  # Создаём объект класса GLInterface
+    window.show()  # Показываем окно
+    app.exec_()  # и запускаем приложение
+
+
+if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
+    main()  # то запускаем функцию main()

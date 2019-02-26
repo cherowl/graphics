@@ -4,6 +4,10 @@ from OpenGL.GLUT import *
 from random import randint, random
 from numpy import sin, cos, pi, power
 
+# shouldn't present in a such way 
+width = 640
+height = 480
+
 def points():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT
@@ -35,8 +39,6 @@ def lines():
     glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT
     glLineWidth(3)
     glBegin(GL_LINES)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glColor3d(255,0,0) 
     glVertex2f(width*0.05, height*0.05)
     glColor3d(0,255,0)
@@ -53,8 +55,6 @@ def line_strip():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT
     glLineWidth(3)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glBegin(GL_LINE_STRIP)
     counter = randint(5,30)
     glColor3d(255, 0, 0)
@@ -68,8 +68,6 @@ def line_loop():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT
     glLineWidth(3)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glBegin(GL_LINE_STRIP)
     counter = randint(5,30)
     glColor3d(255, 0, 0)
@@ -113,10 +111,10 @@ def triangles():
     glFinish()
 
 
-def triangles_strip():
+def triangle_strip():
     glClearColor(255, 255, 255, 1)
-    x_scale = 1/16*glutGet(GLUT_WINDOW_WIDTH)
-    y_scale = 1/16*glutGet(GLUT_WINDOW_HEIGHT)
+    x_scale = 1/16*width
+    y_scale = 1/16*height
     glClear(GL_COLOR_BUFFER_BIT)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(3)
@@ -164,8 +162,6 @@ def triangles_strip():
 
 def triangle_fan():
     glClearColor(255, 255, 255, 1)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     x_center = width/2
     y_center = height/2
     x_radius = width*0.2
@@ -193,8 +189,6 @@ def quads():
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(1)
     glBegin(GL_QUADS)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glColor3d(255, 0, 0)
     glVertex2f(0.1*width, 0.1*height)
     glVertex2f(0.1*width, 0.2*height)
@@ -224,8 +218,6 @@ def quad_strip():
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(1)
     glBegin(GL_QUAD_STRIP)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glColor3d(255, 0, 0)
     glVertex2f(0.1*width, 0.1*height)
     glVertex2f(0.1*width, 0.2*height)
@@ -257,8 +249,6 @@ def polygon():
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(1)
     glBegin(GL_POLYGON)
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glColor3d(255, 0, 0)
     glVertex2f(0.1*width, 0.2*height)
     glVertex2f(0.1*width, 0.1*height)
@@ -281,3 +271,17 @@ def polygon():
 
     glEnd()
     glFinish()
+
+
+PRIMITIVES = {
+    'GL_POINTS': points,
+    'GL_LINES': lines,
+    'GL_LINE_STRIP': line_strip, 
+    'GL_LINE_LOOP': line_loop,
+    'GL_TRIANGLES': triangles,
+    'GL_TRIANGLE_STRIP': triangle_strip, 
+    'GL_TRIANGLE_FAN': triangle_fan,
+    'GL_QUADS': quads,
+    'GL_QUAD_STRIP': quad_strip,
+    'GL_POLYGON': polygon,
+}
