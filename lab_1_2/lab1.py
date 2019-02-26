@@ -4,9 +4,6 @@ from OpenGL.GLUT import *
 from random import randint, random
 from numpy import sin, cos, pi, power
 
-# shouldn't present in a such way 
-width = 640
-height = 480
 
 def points():
     glClearColor(255, 255, 255, 1)

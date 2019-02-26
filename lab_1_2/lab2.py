@@ -2,10 +2,14 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
+# shouldn't present in a such way 
+width = 640
+height = 480
+
 def scissor():
     glClearColor(255, 255, 255, 1)
-    x_scale = 1/16*glutGet(GLUT_WINDOW_WIDTH)
-    y_scale = 1/16*glutGet(GLUT_WINDOW_HEIGHT)
+    x_scale = 1/16*width
+    y_scale = 1/16*width
     glClear(GL_COLOR_BUFFER_BIT)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
     glLineWidth(3)
@@ -61,8 +65,6 @@ def alpha():
     # x_scale = 1/7*glutGet(GLUT_WINDOW_WIDTH)
     # y_scale = 1/8*glutGet(GLUT_WINDOW_HEIGHT)
 
-    width = glutGet(GLUT_WINDOW_WIDTH)
-    height = glutGet(GLUT_WINDOW_HEIGHT)
     glClear(GL_COLOR_BUFFER_BIT)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glEnable(GL_ALPHA_TEST)
@@ -102,7 +104,5 @@ def alpha():
     glVertex2f(0.3*width, 0.4*height)
 
     glEnd()
-
     glDisable(GL_ALPHA_TEST)
-
     glFinish()
