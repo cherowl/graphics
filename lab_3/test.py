@@ -2,28 +2,62 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
+from numpy import pi, sin, cos
 
-Width = 512
-Height = 512
+state = [0.8, -0.9, pi/2]
+turn = pi/8
+moves = 'LFRFRSRFLFLPLSLFRFRFP'
+max_depth = 6
+F = [0.2/10]*2
+# L - Left
+# R - Right
+# F - Front
+# S - Save(Push)
+# P - Pop
+
+def action(cur_depth):
+    global state
+    tmp = None
+    if cur_depth  != 1:
+        for symbol in moves:
+            if symbol == 'F':
+                if cur_depth == max_depth:
+                    glVertex2f(state[0], state[1])
+                    glVertex2f(state[0]+F[0]*cos(state[2]), state[1]+F[1]*sin(state[2]))
+                    state = [state[0]+F[0]*cos(state[2]), state[1]+F[1]*sin(state[2]), state[2]]
+                else:
+                    action(cur_depth+1)
+            elif symbol == 'L':
+                # print(state)
+                state[2] += turn
+            elif symbol == 'R':
+                # print(state)
+                state[2] -= turn
+            elif symbol == 'S':
+                tmp = state.copy()
+            elif symbol == 'P':
+                if not (tmp is None):
+                    state = tmp.copy()
+                else:
+                    raise ValueError("tmp state is None")
+
+    else:
+        if max_depth == 1:
+            glVertex2f(state[0], state[1])
+            glVertex2f(state[0]+F[0]*cos(state[2]), state[1]+F[1]*sin(state[2]))
+            print('this way')
+        else:
+            action(cur_depth+1)
+
 
 def display():
-    
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT)
-    
     glColor4f(255,0,0,1.0)
-    glPointSize(20) 
-    glEnable(GL_POINT_SMOOTH)
-    glBegin(GL_POINTS)
-    glVertex3f(-0.9,-0.9, 0.0)
-    glVertex3f(-0.9,0.9, 0.0)
-    glVertex3f(0.9,0.9, 0.0)
-    glVertex3f(0.9,-0.9, 0.0)
+    glBegin(GL_LINES)
+    action(1)
     glEnd()
-    glDisable(GL_POINT_SMOOTH)
-
     glFinish()
-
 
 
 def keyboard(key, x, y):
@@ -33,9 +67,10 @@ def keyboard(key, x, y):
 
 
 if __name__ == '__main__':
+    win_size = [1024, 1024]
     glutInit(sys.argv)
     glutInitDisplayMode(GLUT_RGBA)
-    glutInitWindowSize(500, 500)
+    glutInitWindowSize(*win_size)
     glutInitWindowPosition(100, 140)
     glutCreateWindow("test")
     glutDisplayFunc(display)
