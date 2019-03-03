@@ -106,3 +106,35 @@ def alpha():
     glEnd()
     glDisable(GL_ALPHA_TEST)
     glFinish()
+
+
+def blending():
+    dfactor = GL_SRC_ALPHA
+    sfactor = GL_ONE_MINUS_SRC_ALPHA
+    glClearColor(255, 255, 255, 1)
+    glClear(GL_COLOR_BUFFER_BIT)
+    glEnable(GL_BLEND)
+    glBlendFunc(dfactor,sfactor)
+    
+    quantity = 36
+
+    glBegin(GL_POLYGON)
+    glColor4f(1.0, 1.0, 0.0, 0.8)
+    for i in range(quantity):
+        glVertex2f(cos(2*pi*i/quantity)*0.6+0.2, sin(2*pi*i/quantity)*0.6-0.2)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor4f(0.0, 0.0, 1.0, 0.6)
+    for i in range(quantity):
+        glVertex2f(cos(2*pi*i/quantity)*0.6, sin(2*pi*i/quantity)*0.6+0.2)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor4f(0.0, 1.0, 0.0, 0.4)
+    for i in range(quantity):
+        glVertex2f(cos(2*pi*i/quantity)*0.6-0.2, sin(2*pi*i/quantity)*0.6-0.2)
+    glEnd()
+
+    glDisable(GL_BLEND)
+    glFinish()
