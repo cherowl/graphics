@@ -4,11 +4,11 @@ from OpenGL.GLUT import *
 import sys
 from numpy import pi, sin, cos
 
-state = [0.8, -0.9, pi/2]
+state = [0.8, -0.95, pi/2]
 turn = pi/8
 moves = 'LFRFRSRFLFLPLSLFRFRFP'
-max_depth = 6
-F = [0.2/10]*2
+max_depth = 3
+F = [2/84]*2
 # L - Left
 # R - Right
 # F - Front
@@ -67,11 +67,11 @@ def keyboard(key, x, y):
 
 
 if __name__ == '__main__':
-    win_size = [1024, 1024]
+    win_size = [933, 700]
     glutInit(sys.argv)
     glutInitDisplayMode(GLUT_RGBA)
     glutInitWindowSize(*win_size)
-    glutInitWindowPosition(100, 140)
+    glutInitWindowPosition(100, 0)
     glutCreateWindow("test")
     glutDisplayFunc(display)
     glutKeyboardFunc(keyboard)
