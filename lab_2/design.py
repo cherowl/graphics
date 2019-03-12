@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from gl_base.controller import GLWidget
+from controller import GLWidget
 
 
 class Ui_MainWindow(object):
