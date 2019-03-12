@@ -1,14 +1,17 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+from numpy import sin, cos, pi, power
 
-# shouldn't present in a such way 
-width = 640
-height = 480
 
-def scissor():
-    x_start, y_start = 100, 100
-    width, height = 200, 200
+
+# # shouldn't present in a such way 
+# width = 640
+# height = 480
+
+def scissor(width, height):
+    # x_start, y_start = 100, 100
+    # width, height = 200, 200
 
     glClearColor(255, 255, 255, 1)
     x_scale = 1/16*width
@@ -61,9 +64,7 @@ def scissor():
     glFinish()
 
 
-def alpha():
-    func = GL_GEQUAL
-    ref = 0.5
+def alpha(func, ref, width, height):
     glClearColor(255, 255, 255, 1)
     # x_scale = 1/7*glutGet(GLUT_WINDOW_WIDTH)
     # y_scale = 1/8*glutGet(GLUT_WINDOW_HEIGHT)
@@ -111,9 +112,9 @@ def alpha():
     glFinish()
 
 
-def blending():
-    dfactor = GL_SRC_ALPHA
-    sfactor = GL_ONE_MINUS_SRC_ALPHA
+def blending(sfactor, dfactor, mode):
+    print(type(PRIMITIVES[mode]), type(GL_POINTS))
+
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT)
     glEnable(GL_BLEND)
@@ -121,19 +122,19 @@ def blending():
     
     quantity = 36
 
-    glBegin(GL_POLYGON)
+    glBegin(PRIMITIVES[mode])
     glColor4f(1.0, 1.0, 0.0, 0.8)
     for i in range(quantity):
         glVertex2f(cos(2*pi*i/quantity)*0.6+0.2, sin(2*pi*i/quantity)*0.6-0.2)
     glEnd()
 
-    glBegin(GL_POLYGON)
+    glBegin(PRIMITIVES[mode])
     glColor4f(0.0, 0.0, 1.0, 0.6)
     for i in range(quantity):
         glVertex2f(cos(2*pi*i/quantity)*0.6, sin(2*pi*i/quantity)*0.6+0.2)
     glEnd()
 
-    glBegin(GL_POLYGON)
+    glBegin(PRIMITIVES[mode])
     glColor4f(0.0, 1.0, 0.0, 0.4)
     for i in range(quantity):
         glVertex2f(cos(2*pi*i/quantity)*0.6-0.2, sin(2*pi*i/quantity)*0.6-0.2)
@@ -141,3 +142,52 @@ def blending():
 
     glDisable(GL_BLEND)
     glFinish()
+
+
+PRIMITIVES = {
+    'GL_POINTS': GL_POINTS,
+    'GL_LINES': GL_LINES,
+    'GL_LINE_STRIP': GL_LINE_STRIP, 
+    'GL_LINE_LOOP': GL_LINE_LOOP,
+    'GL_TRIANGLES': GL_TRIANGLES,
+    'GL_TRIANGLE_STRIP': GL_TRIANGLE_STRIP, 
+    'GL_TRIANGLE_FAN': GL_TRIANGLE_FAN,
+    'GL_QUADS': GL_QUADS,
+    'GL_QUAD_STRIP': GL_QUAD_STRIP,
+    'GL_POLYGON': GL_POLYGON,
+}
+
+TRANSPARENCY = {
+    'GL_ALWAYS': GL_ALWAYS,
+    'GL_NEVER': GL_NEVER,
+    'GL_LESS': GL_LESS,
+    'GL_EQUAL': GL_EQUAL,
+    'GL_LEQUAL': GL_LEQUAL,
+    'GL_GREATER': GL_GREATER,
+    'GL_NOTEQUAL': GL_NOTEQUAL,
+    'GL_GEQUAL': GL_GEQUAL,
+    'GL_NEVER': GL_NEVER
+}
+
+SFACTOR = {
+    'GL_ONE': GL_ONE,
+    'GL_ZERO': GL_ZERO,
+    'GL_DST_COLOR': GL_DST_COLOR,
+    'GL_ONE_MINUS_DST_COLOR': GL_ONE_MINUS_DST_COLOR,
+    'GL_SRC_ALPHA': GL_SRC_ALPHA,
+    'GL_ONE_MINUS_SRC_ALPHA': GL_ONE_MINUS_SRC_ALPHA,
+    'GL_DST_ALPHA': GL_DST_ALPHA,
+    'GL_ONE_MINUS_DST_ALPHA': GL_ONE_MINUS_DST_ALPHA,
+    'GL_SRC_ALPHA_SATURATE': GL_SRC_ALPHA_SATURATE
+}
+
+DFACTOR = {
+    'GL_ZERO': GL_ZERO,
+    'GL_ONE': GL_ONE,
+    'GL_SRC_COLOR': GL_SRC_COLOR,
+    'GL_ONE_MINUS_SRC_COLOR': GL_ONE_MINUS_SRC_COLOR,
+    'GL_SRC_ALPHA': GL_SRC_ALPHA,
+    'GL_ONE_MINUS_SRC_ALPHA': GL_ONE_MINUS_SRC_ALPHA,
+    'GL_DST_ALPHA': GL_DST_ALPHA,
+    'GL_ONE_MINUS_DST_ALPHA': GL_ONE_MINUS_DST_ALPHA
+}

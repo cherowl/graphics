@@ -83,7 +83,7 @@ def triangles():
     glBegin(GL_TRIANGLES)
 
     glColor3d(255,0,0)
-    glVertex2d(30,40)
+    glVertex2d(GL_POINT_SMOOTH,40)
     glColor3d(0,255,0)
     glVertex2d(50,80)
     glColor3d(0,0,255)

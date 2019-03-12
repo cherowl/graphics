@@ -3,7 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from controller import GLWidget
 
-class Ui_GLInterface(object):
+class Ui_MainWindow(object):
     def setupUi(self, GLInterface):
         GLInterface.setObjectName("GLInterface")
         GLInterface.resize(700, 600)
