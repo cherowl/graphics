@@ -19,6 +19,8 @@ class GLWidget(QGLWidget):
         
         self.width = 800
         self.height = 600
+        self.x_pos = 0
+        self.y_pos = 0
         self.setFixedSize(self.width, self.height)
         self.order = 5 # main variableordeorderr
 
@@ -57,6 +59,11 @@ class GLWidget(QGLWidget):
 
     def change_depth(self, value):
         self.order = value
+    
+    def change_pos(self, x, y):
+        self.x_pos = x
+        self.y_pos = y
+        print(self.x_pos, self.y_pos)
 
 
     def draw(self, basic_triangles, basic_lines):
@@ -86,7 +93,6 @@ class GLWidget(QGLWidget):
 
     def rotate(self, arr, angle = np.pi/2):
         rot = rotate_matrix(angle)
-        print(rot)
         return np.matmul(arr, rot)
 
 

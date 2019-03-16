@@ -28,7 +28,12 @@ class GLInterface(QWidget):
         self.setLayout(main_layout)
         self.setWindowTitle("Laboratory work #3")
         self.setMinimumSize(self.widget.width, self.widget.height)
-
+        
+        
+    def moveEvent(self, e):
+        """This method gives current point position to the GLWidget"""
+        self.widget.change_pos(self.pos().x(), self.pos().y())
+        super(GLInterface, self).moveEvent(e)
 
     def activate(self, value):
         self.value = self.value_holder.value()
