@@ -17,7 +17,7 @@ class GLInterface(QWidget):
     def setupUi(self):
         self.label = QLabel("Magic value that only Maks knows:")
         self.value_holder = QSpinBox()
-        self.value_holder.setRange(1 , 20)
+        self.value_holder.setRange(1 , 13)
         self.value_holder.setValue(5)
         self.widget = GLWidget(self)
 
@@ -30,18 +30,11 @@ class GLInterface(QWidget):
         
         self.setLayout(main_layout)
         self.setWindowTitle("Laboratory work #3")
-        self.setMinimumSize(self.widget.width, self.widget.height)
-        
-        
-    def moveEvent(self, e):
-        """This method gives current point position to the GLWidget"""
-        self.widget.change_pos(self.pos().x(), self.pos().y())
-        super(GLInterface, self).moveEvent(e)
+        self.setMinimumSize(self.widget.width, self.widget.height+100)
+
 
     def activate(self, value):
         self.value = value
-        # self.value = self.value_holder.value()
-        print('activate', self.value)
         self.widget.change_depth(self.value)
 
 

@@ -17,7 +17,7 @@ class GLWidget(QGLWidget):
     def __init__(self, parent):
         super(GLWidget, self).__init__(parent)
         
-        self.width = 800
+        self.width = 600
         self.height = 600
         self.x_pos = 0
         self.y_pos = 0
