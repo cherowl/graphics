@@ -52,11 +52,6 @@ class GLWidget(QGLWidget):
         basic_lines = np.array([[-0.32, -0.16], [0.32, -0.16]])
         self.depth = self.order
         self.draw(basic_triangles, basic_lines)
-        # glutSwapBuffers()
-
-        # for testing
-        # PRIMITIVES['GL_POINTS']()
-
 
 
     def change_depth(self, value):
@@ -69,7 +64,6 @@ class GLWidget(QGLWidget):
         lines = basic_lines
         if self.depth - 1:
             triangles, lines = self.get_objects(triangles, basic_lines, np.array([[0,0],[0,0]]), 1)
-        print('drawing')
         glClearColor(0, 0, 0, 1)
         glClear(GL_COLOR_BUFFER_BIT)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
@@ -95,14 +89,12 @@ class GLWidget(QGLWidget):
         glFinish()
 
 
-
     def rotate(self, arr, angle = np.pi/2):
         rot = rotate_matrix(angle)
         return np.matmul(arr, rot)
 
 
     def get_objects(self, basic_triangles, basic_lines, connections, depth):
-        print('get obj', depth)
         if depth != self.order:
             triangles = self.rotate(basic_triangles/2**(0.5), 3*np.pi/4)
             lines = self.rotate(basic_lines/2**(0.5), 3*np.pi/4)

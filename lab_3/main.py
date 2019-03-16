@@ -15,7 +15,7 @@ class GLInterface(QWidget):
         self.setupUi()
 
     def setupUi(self):
-        self.label = QLabel("Magic value that only Maks knows:")
+        self.label = QLabel("Order:")
         self.value_holder = QSpinBox()
         self.value_holder.setRange(1 , 13)
         self.value_holder.setValue(5)
@@ -30,7 +30,7 @@ class GLInterface(QWidget):
         
         self.setLayout(main_layout)
         self.setWindowTitle("Laboratory work #3")
-        self.setMinimumSize(self.widget.width, self.widget.height+100)
+        self.setMinimumSize(self.widget.width, self.widget.height+75)
 
 
     def activate(self, value):
