@@ -19,6 +19,8 @@ class GLWidget(QGLWidget):
         
         self.width = 800
         self.height = 600
+        self.x_pos = 0
+        self.y_pos = 0
         self.setFixedSize(self.width, self.height)
         self.order = 5 # main variable ordeorderr
         self.depth = 5
@@ -96,7 +98,6 @@ class GLWidget(QGLWidget):
 
     def rotate(self, arr, angle = np.pi/2):
         rot = rotate_matrix(angle)
-        # print(rot)
         return np.matmul(arr, rot)
 
 
