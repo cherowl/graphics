@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from  controller import GLWidget
+from controller import GLWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, GLInterface):

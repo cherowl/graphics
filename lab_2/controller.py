@@ -5,6 +5,9 @@ from PyQt5.QtOpenGL import *
 from random import randint, random
 from numpy import sin, cos, pi, power
 
+import sys
+sys.path.append('..')
+
 from lab_1.views import PRIMITIVES
 from lab_2.views import TRANSPARENCY, DFACTOR, SFACTOR, alpha, blending
 
@@ -74,40 +77,40 @@ class GLWidget(QGLWidget):
         print(text)
         self.test = None
         self.current_mode = text
-        self.update()
+        self.updateGL()
 
     def changeTransparency(self, text):
         print(text)
         self.test = GL_ALPHA_TEST
         self.transparency = text
-        self.update()
+        self.updateGL()
 
     def changeRef(self, value):
-        print(value)        
         self.test = GL_ALPHA_TEST
         self.ref = value / 100
-        self.update()
+        print(self.ref)        
+        self.updateGL()
 
     def changeSfactor(self, text):
         print(text)
         self.test = GL_BLEND
         self.sfactor = text
-        self.update()
+        self.updateGL()
 
     def changeDfactor(self, text):
         print(text)
         self.test = GL_BLEND
         self.dfactor = text
-        self.update()
+        self.updateGL()
 
     def changeX(self, value):
         print(value)
         self.test = GL_SCISSOR_TEST
         self.x_cut = value
-        self.update()
+        self.updateGL()
 
     def changeY(self, value):
         print(value)
         self.test = GL_SCISSOR_TEST
         self.y_cut = value
-        self.update()
+        self.updateGL()
