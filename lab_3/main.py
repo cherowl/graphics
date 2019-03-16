@@ -3,7 +3,7 @@ import sys  # sys нужен для передачи argv в QApplication
 from PyQt5.QtWidgets import (QApplication, QWidget, QComboBox, QDialog,
 QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
 QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
-QVBoxLayout) 
+QVBoxLayout, QHBoxLayout) 
 
 from controller import GLWidget
 
@@ -19,13 +19,16 @@ class GLInterface(QWidget):
         self.value_holder = QSpinBox()
         self.value_holder.setRange(1 , 13)
         self.value_holder.setValue(5)
-        self.widget = GLWidget(self)
-
         self.value_holder.valueChanged.connect(self.activate)
 
+        self.widget = GLWidget(self)
+
+        added = QHBoxLayout()
+        added.addWidget(self.label)
+        added.addWidget(self.value_holder)
+
         main_layout = QVBoxLayout()
-        main_layout.addWidget(self.label)
-        main_layout.addWidget(self.value_holder)
+        main_layout.addLayout(added)
         main_layout.addWidget(self.widget)
         
         self.setLayout(main_layout)
