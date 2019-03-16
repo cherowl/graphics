@@ -20,14 +20,15 @@ class GLWidget(QGLWidget):
         self.width = 800
         self.height = 600
         self.setFixedSize(self.width, self.height)
-        self.order = 5 # main variableordeorderr
+        self.order = 5 # main variable ordeorderr
+        self.depth = 5
 
 
 
     def initializeGL(self):
         """It is called once before the first call to paintGL() or resizeGL(),
         and then once whenever the widget has been assigned a new QGLContext """
-        # glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
         # glClear (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA)
         glViewport(100, 10, self.width, self.height)
         glMatrixMode(GL_PROJECTION) # загрузка матрицы проекции
@@ -47,50 +48,60 @@ class GLWidget(QGLWidget):
         glLoadIdentity()
         basic_triangles = np.array([[-0.96, -0.48], [0, -0.48], [0, 0.48], [0.96, -0.48]])
         basic_lines = np.array([[-0.32, -0.16], [0.32, -0.16]])
+        self.depth = self.order
         self.draw(basic_triangles, basic_lines)
         # glutSwapBuffers()
 
         # for testing
-        PRIMITIVES['GL_POINTS']()
+        # PRIMITIVES['GL_POINTS']()
 
 
 
     def change_depth(self, value):
         self.order = value
+        self.update()
 
 
     def draw(self, basic_triangles, basic_lines):
         triangles = basic_triangles
         lines = basic_lines
-        if self.order-1:
+        if self.depth - 1:
             triangles, lines = self.get_objects(triangles, basic_lines, np.array([[0,0],[0,0]]), 1)
+        print('drawing')
+        glClearColor(0, 0, 0, 1)
+        glClear(GL_COLOR_BUFFER_BIT)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
         glBegin(GL_TRIANGLES)
         glColor3f(1.0, 0.0, 0.0)
+        abs_var = np.array([self.width, self.height])/2
+        shift = np.array([self.width, self.height])/2
         for index in range(0, triangles.shape[0], 4):
-            glVertex2f(*(triangles[index]))
-            glVertex2f(*(triangles[index + 1]))
-            glVertex2f(*(triangles[index + 2]))
+            glVertex2f(*(triangles[index]*abs_var+shift))
+            glVertex2f(*(triangles[index + 1]*abs_var+shift))
+            glVertex2f(*(triangles[index + 2]*abs_var+shift))
 
-            glVertex2f(*(triangles[index + 1]))
-            glVertex2f(*(triangles[index + 2]))
-            glVertex2f(*(triangles[index + 3]))
+            glVertex2f(*(triangles[index + 1]*abs_var+shift))
+            glVertex2f(*(triangles[index + 2]*abs_var+shift))
+            glVertex2f(*(triangles[index + 3]*abs_var+shift))
         glEnd()
         glColor4f(255,255,255,1.0)
         glBegin(GL_LINES)
         for index in range(0, lines.shape[0], 2):
-            glVertex2f(*lines[index])
-            glVertex2f(*lines[index+1])
+            glVertex2f(*(lines[index]*abs_var+shift))
+            glVertex2f(*(lines[index+1]*abs_var+shift))
         glEnd()
+        glFinish()
+
 
 
     def rotate(self, arr, angle = np.pi/2):
         rot = rotate_matrix(angle)
-        print(rot)
+        # print(rot)
         return np.matmul(arr, rot)
 
 
     def get_objects(self, basic_triangles, basic_lines, connections, depth):
+        print('get obj', depth)
         if depth != self.order:
             triangles = self.rotate(basic_triangles/2**(0.5), 3*np.pi/4)
             lines = self.rotate(basic_lines/2**(0.5), 3*np.pi/4)

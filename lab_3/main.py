@@ -17,21 +17,26 @@ class GLInterface(QWidget):
     def setupUi(self):
         self.label = QLabel("Magic value that only Maks knows:")
         self.value_holder = QSpinBox()
-        self.value_holder.setRange(0 , 20)
+        self.value_holder.setRange(1 , 20)
+        self.value_holder.setValue(5)
         self.widget = GLWidget(self)
+
+        self.value_holder.valueChanged.connect(self.activate)
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.label)
         main_layout.addWidget(self.value_holder)
         main_layout.addWidget(self.widget)
-
+        
         self.setLayout(main_layout)
         self.setWindowTitle("Laboratory work #3")
         self.setMinimumSize(self.widget.width, self.widget.height)
 
 
     def activate(self, value):
-        self.value = self.value_holder.value()
+        self.value = value
+        # self.value = self.value_holder.value()
+        print('activate', self.value)
         self.widget.change_depth(self.value)
 
 
