@@ -49,12 +49,11 @@ class GLWidget(QGLWidget):
             if self.test == GL_SCISSOR_TEST:
                 glScissor(0, 0, self.x_cut, self.y_cut)
             if self.test == GL_BLEND:
-                # blending(SFACTOR[self.sfactor], DFACTOR[self.dfactor], self.current_mode) 
                 glBlendFunc(SFACTOR[self.sfactor], DFACTOR[self.dfactor]) 
 
             glEnable(self.test)
 
-            print(self.test, SFACTOR[self.sfactor], DFACTOR[self.dfactor])
+            # print(self.test, SFACTOR[self.sfactor], DFACTOR[self.dfactor])
             
 
         if self.current_mode in PRIMITIVES:
@@ -77,40 +76,40 @@ class GLWidget(QGLWidget):
         print(text)
         self.test = None
         self.current_mode = text
-        self.updateGL()
+        self.update()
 
     def changeTransparency(self, text):
         print(text)
         self.test = GL_ALPHA_TEST
         self.transparency = text
-        self.updateGL()
+        self.update()
 
     def changeRef(self, value):
+        print(value)        
         self.test = GL_ALPHA_TEST
         self.ref = value / 100
-        print(self.ref)        
-        self.updateGL()
+        self.update()
 
     def changeSfactor(self, text):
-        print(text)
+        # print(text)
         self.test = GL_BLEND
         self.sfactor = text
-        self.updateGL()
+        self.update()
 
     def changeDfactor(self, text):
-        print(text)
+        # print(text)
         self.test = GL_BLEND
         self.dfactor = text
-        self.updateGL()
+        self.update()
 
     def changeX(self, value):
-        print(value)
+        print('scissor: change x', self.width - int(value/100*self.width))
         self.test = GL_SCISSOR_TEST
-        self.x_cut = value
+        self.x_cut = self.width - int(value/100*self.width)
         self.updateGL()
 
     def changeY(self, value):
-        print(value)
+        print('scissor: change y', self.height - int(value/100*self.height))
         self.test = GL_SCISSOR_TEST
-        self.y_cut = value
+        self.y_cut = self.height - int(value/100*self.height)
         self.updateGL()
