@@ -43,34 +43,20 @@ class GLWidget(QGLWidget):
 
        
     def paintGL(self):
-        """It is called whenever the widget needs to be painted"""
         glClear(GL_COLOR_BUFFER_BIT)
-        print( int(self.width*(1-self.x_cut/100)) )
 
         glEnable(GL_ALPHA_TEST)
         glEnable(GL_SCISSOR_TEST)
         glEnable(GL_BLEND)
-        
 
         glAlphaFunc(TRANSPARENCY[self.transparency], self.ref)
         glScissor(0, 0, int(self.width*(1-self.x_cut/100)), int(self.height*(1-self.y_cut/100)))
         glBlendFunc(SFACTOR[self.sfactor], DFACTOR[self.dfactor]) 
-
-
-            # print(self.test, SFACTOR[self.sfactor], DFACTOR[self.dfactor])
-            
-
-        # if self.current_mode in PRIMITIVES:
         PRIMITIVES[self.current_mode]()
-        # else: print('suck')
-        
 
         glDisable(GL_BLEND)
         glDisable(GL_SCISSOR_TEST)
         glDisable(GL_ALPHA_TEST)
-        # if self.test is not None:
-        #     glDisable(self.test)
-
         
 
     def resizeGL(self, w, h):
@@ -85,22 +71,16 @@ class GLWidget(QGLWidget):
         glLoadIdentity()
 
     def changeFigure(self, text):
-        print(text)
-        # self.test = None
         self.current_mode = text
         glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeTransparency(self, text):
-        print(text)
-        # self.test = GL_ALPHA_TEST
         self.transparency = text
         glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeRef(self, value):
-        # print(value)        
-        # self.test = GL_ALPHA_TEST
         self.ref = value / 100
         glClear(GL_COLOR_BUFFER_BIT)
         self.update()
@@ -113,22 +93,16 @@ class GLWidget(QGLWidget):
         self.update()
 
     def changeDfactor(self, text):
-        # print(text)
-        # self.test = GL_BLEND
         self.dfactor = text
         glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeX(self, value):
-        # print('scissor: change x', self.width - int(value/100*self.width))
-        # self.test = GL_SCISSOR_TEST
         self.x_cut = value
         glClear(GL_COLOR_BUFFER_BIT)
         self.updateGL()
 
     def changeY(self, value):
-        # print('scissor: change y', self.height - int(value/100*self.height))
-        # self.test = GL_SCISSOR_TEST
         self.y_cut = value
         glClear(GL_COLOR_BUFFER_BIT)
         self.updateGL()
