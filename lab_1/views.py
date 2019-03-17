@@ -77,7 +77,7 @@ def line_loop():
 def triangles():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glLineWidth(3)
     glEnable(GL_POINT_SMOOTH)
     glBegin(GL_TRIANGLES)
@@ -113,7 +113,7 @@ def triangle_strip():
     x_scale = 40
     y_scale = 30
     glClear(GL_COLOR_BUFFER_BIT)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glLineWidth(3)
     
     glBegin(GL_TRIANGLE_STRIP)
@@ -164,7 +164,7 @@ def triangle_fan():
     x_radius = 128
     y_radius = 96
     glClear(GL_COLOR_BUFFER_BIT)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glLineWidth(1)
     glEnable(GL_POINT_SMOOTH)
     glBegin(GL_TRIANGLE_FAN)
@@ -183,7 +183,7 @@ def triangle_fan():
 def quads():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glLineWidth(2)
     glBegin(GL_QUADS)
     glColor3d(255, 0, 0)
@@ -212,7 +212,7 @@ def quads():
 def quad_strip():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glLineWidth(2)
     glBegin(GL_QUAD_STRIP)
     glColor3d(255, 0, 0)
@@ -243,7 +243,7 @@ def quad_strip():
 def polygon():
     glClearColor(255, 255, 255, 1)
     glClear(GL_COLOR_BUFFER_BIT)
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL) 
     glLineWidth(2)
     glBegin(GL_POLYGON)
     glColor3d(255, 0, 0)
