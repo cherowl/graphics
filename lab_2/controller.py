@@ -15,8 +15,8 @@ from lab_2.views import TRANSPARENCY, DFACTOR, SFACTOR#, alpha, blending
 class GLWidget(QGLWidget):
     def __init__(self, parent):
         super(GLWidget, self).__init__(parent)
-        self.width = 800
-        self.height = 630
+        self.width = 650
+        self.height = 650
         self.x_cut = 0
         self.y_cut = 0
         self.ref = 0.0
@@ -35,7 +35,7 @@ class GLWidget(QGLWidget):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
         glViewport(0, 0, self.width, self.height)
         glMatrixMode(GL_PROJECTION) # загрузка матрицы проекции
-        gluOrtho2D(0, self.width, 0, self.height) 
+        # gluOrtho2D(0, self.width, 0, self.height) 
         glMatrixMode(GL_MODELVIEW)
         glClearDepth(1.0)
         glShadeModel(GL_SMOOTH)
@@ -66,7 +66,7 @@ class GLWidget(QGLWidget):
         glViewport(0, 0, w, h)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glOrtho(0, w, 0, h, -1.0, 1.0)
+        # glOrtho(0, w, 0, h, -1.0, 1.0)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 

@@ -28,7 +28,7 @@ class GLWidget(QGLWidget):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
         glViewport(100, 10, self.width, self.height)
         glMatrixMode(GL_PROJECTION) # загрузка матрицы проекции
-        gluOrtho2D(0, self.width, 0, self.height) 
+        # gluOrtho2D(0, self.width, 0, self.height) 
         glMatrixMode(GL_MODELVIEW)
         glClearDepth(1.0)
         glClearColor(0.0, 0.0, 0.0, 1.0)
@@ -62,22 +62,20 @@ class GLWidget(QGLWidget):
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) 
         glBegin(GL_TRIANGLES)
         glColor3f(1.0, 0.0, 0.0)
-        abs_var = np.array([self.width, self.height])/2
-        shift = np.array([self.width, self.height])/2
         for index in range(0, triangles.shape[0], 4):
-            glVertex2f(*(triangles[index]*abs_var+shift))
-            glVertex2f(*(triangles[index + 1]*abs_var+shift))
-            glVertex2f(*(triangles[index + 2]*abs_var+shift))
+            glVertex2f(*(triangles[index]))
+            glVertex2f(*(triangles[index + 1]))
+            glVertex2f(*(triangles[index + 2]))
 
-            glVertex2f(*(triangles[index + 1]*abs_var+shift))
-            glVertex2f(*(triangles[index + 2]*abs_var+shift))
-            glVertex2f(*(triangles[index + 3]*abs_var+shift))
+            glVertex2f(*(triangles[index + 1]))
+            glVertex2f(*(triangles[index + 2]))
+            glVertex2f(*(triangles[index + 3]))
         glEnd()
         glColor4f(255,255,255,1.0)
         glBegin(GL_LINES)
         for index in range(0, lines.shape[0], 2):
-            glVertex2f(*(lines[index]*abs_var+shift))
-            glVertex2f(*(lines[index+1]*abs_var+shift))
+            glVertex2f(*(lines[index]))
+            glVertex2f(*(lines[index+1]))
         glEnd()
         glFinish()
 

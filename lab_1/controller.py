@@ -23,7 +23,7 @@ class GLWidget(QGLWidget):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
         glViewport(0, 0, self.width, self.height)
         glMatrixMode(GL_PROJECTION) # загрузка матрицы проекции
-        gluOrtho2D(0, self.width, 0, self.height) 
+        # gluOrtho2D(0, self.width, 0, self.height) 
         glMatrixMode(GL_MODELVIEW)
         glClearDepth(1.0)
         glShadeModel(GL_SMOOTH)
