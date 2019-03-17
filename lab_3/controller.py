@@ -5,9 +5,6 @@ from PyQt5.QtOpenGL import *
 import sys
 import numpy as np
 
-# for testing
-sys.path.append('..')
-from lab_1.views import PRIMITIVES
 
 rotate_matrix = lambda angle: np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
 mirror_matrix = np.array([[-1, 0], [0, 1]])
@@ -19,10 +16,8 @@ class GLWidget(QGLWidget):
         
         self.width = 600
         self.height = 600
-        self.x_pos = 0
-        self.y_pos = 0
         self.setFixedSize(self.width, self.height)
-        self.order = 5 # main variable ordeorderr
+        self.order = 5 # main variable
         self.depth = 5
 
 
@@ -31,7 +26,6 @@ class GLWidget(QGLWidget):
         """It is called once before the first call to paintGL() or resizeGL(),
         and then once whenever the widget has been assigned a new QGLContext """
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
-        # glClear (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA)
         glViewport(100, 10, self.width, self.height)
         glMatrixMode(GL_PROJECTION) # загрузка матрицы проекции
         gluOrtho2D(0, self.width, 0, self.height) 
@@ -41,7 +35,6 @@ class GLWidget(QGLWidget):
         glShadeModel(GL_SMOOTH)
         glLoadIdentity()
 
-        # glutInitWindowPosition (100, 10)
 
     def paintGL(self):
         """It is called whenever the widget needs to be painted"""
