@@ -9,7 +9,7 @@ import sys
 sys.path.append('..')
 
 from lab_1.views import PRIMITIVES
-from lab_2.views import TRANSPARENCY, DFACTOR, SFACTOR, alpha, blending
+from lab_2.views import TRANSPARENCY, DFACTOR, SFACTOR#, alpha, blending
 
 
 class GLWidget(QGLWidget):
@@ -17,19 +17,21 @@ class GLWidget(QGLWidget):
         super(GLWidget, self).__init__(parent)
         self.width = 800
         self.height = 630
-        self.x_cut = self.width
-        self.y_cut = self.height
+        self.x_cut = 0
+        self.y_cut = 0
         self.ref = 0.0
         self.test = None
         self.current_mode = 'GL_POINTS'
         self.transparency = 'GL_ALWAYS'
         self.sfactor = 'GL_ONE'
         self.dfactor = 'GL_ZERO'
-        self.setFixedSize(self.width, self.height)
+        # self.setFixedSize(self.width, self.height)
+
 
     def initializeGL(self):
         """It is called once before the first call to paintGL() or resizeGL(),
         and then once whenever the widget has been assigned a new QGLContext """
+        glClearColor(0, 0, 0, 1)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # очистка буферов
         glViewport(0, 0, self.width, self.height)
         glMatrixMode(GL_PROJECTION) # загрузка матрицы проекции
@@ -41,34 +43,20 @@ class GLWidget(QGLWidget):
 
        
     def paintGL(self):
-        """It is called whenever the widget needs to be painted"""
+        glClear(GL_COLOR_BUFFER_BIT)
 
         glEnable(GL_ALPHA_TEST)
         glEnable(GL_SCISSOR_TEST)
         glEnable(GL_BLEND)
 
-        
-
         glAlphaFunc(TRANSPARENCY[self.transparency], self.ref)
-        # glScissor(0, 0, self.x_cut, 200)
-                # blending(SFACTOR[self.sfactor], DFACTOR[self.dfactor], self.current_mode) 
+        glScissor(0, 0, int(self.width*(1-self.x_cut/100)), int(self.height*(1-self.y_cut/100)))
         glBlendFunc(SFACTOR[self.sfactor], DFACTOR[self.dfactor]) 
-
-
-            # print(self.test, SFACTOR[self.sfactor], DFACTOR[self.dfactor])
-            
-
-        # if self.current_mode in PRIMITIVES:
         PRIMITIVES[self.current_mode]()
-        # else: print('suck')
-        
 
         glDisable(GL_BLEND)
         glDisable(GL_SCISSOR_TEST)
         glDisable(GL_ALPHA_TEST)
-        # if self.test is not None:
-        #     glDisable(self.test)
-
         
 
     def resizeGL(self, w, h):
@@ -76,47 +64,45 @@ class GLWidget(QGLWidget):
         self.height = h
 
         glViewport(0, 0, w, h)
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
         glOrtho(0, w, 0, h, -1.0, 1.0)
+        glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
     def changeFigure(self, text):
-        print(text)
-        self.test = None
         self.current_mode = text
+        glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeTransparency(self, text):
-        print(text)
-        self.test = GL_ALPHA_TEST
         self.transparency = text
+        glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeRef(self, value):
-        print(value)        
-        self.test = GL_ALPHA_TEST
         self.ref = value / 100
+        glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeSfactor(self, text):
         # print(text)
-        self.test = GL_BLEND
+        # self.test = GL_BLEND
         self.sfactor = text
+        glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeDfactor(self, text):
-        # print(text)
-        self.test = GL_BLEND
         self.dfactor = text
+        glClear(GL_COLOR_BUFFER_BIT)
         self.update()
 
     def changeX(self, value):
-        print('scissor: change x', self.width - int(value/100*self.width))
-        self.test = GL_SCISSOR_TEST
-        self.x_cut = self.width - int(value/100*self.width)
+        self.x_cut = value
+        glClear(GL_COLOR_BUFFER_BIT)
         self.updateGL()
 
     def changeY(self, value):
-        print('scissor: change y', self.height - int(value/100*self.height))
-        self.test = GL_SCISSOR_TEST
-        self.y_cut = self.height - int(value/100*self.height)
+        self.y_cut = value
+        glClear(GL_COLOR_BUFFER_BIT)
         self.updateGL()
