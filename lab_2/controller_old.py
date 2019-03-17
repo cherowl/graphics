@@ -17,8 +17,8 @@ class GLWidget(QGLWidget):
         super(GLWidget, self).__init__(parent)
         self.width = 800
         self.height = 630
-        self.x_cut = self.width
-        self.y_cut = self.height
+        self.x_cut = 0
+        self.y_cut = 0
         self.ref = 0.0
         self.test = None
         self.current_mode = 'GL_POINTS'
@@ -43,31 +43,24 @@ class GLWidget(QGLWidget):
     def paintGL(self):
         """It is called whenever the widget needs to be painted"""
 
-        glEnable(GL_ALPHA_TEST)
-        glEnable(GL_SCISSOR_TEST)
-        glEnable(GL_BLEND)
+        if self.test is not None:
+            if self.test == GL_ALPHA_TEST:
+                glAlphaFunc(TRANSPARENCY[self.transparency], self.ref)
+            if self.test == GL_SCISSOR_TEST:
+                glScissor(0, 0, self.x_cut, self.y_cut)
+            if self.test == GL_BLEND:
+                glBlendFunc(SFACTOR[self.sfactor], DFACTOR[self.dfactor]) 
 
-        
-
-        glAlphaFunc(TRANSPARENCY[self.transparency], self.ref)
-        # glScissor(0, 0, self.x_cut, 200)
-                # blending(SFACTOR[self.sfactor], DFACTOR[self.dfactor], self.current_mode) 
-        glBlendFunc(SFACTOR[self.sfactor], DFACTOR[self.dfactor]) 
-
+            glEnable(self.test)
 
             # print(self.test, SFACTOR[self.sfactor], DFACTOR[self.dfactor])
             
 
-        # if self.current_mode in PRIMITIVES:
-        PRIMITIVES[self.current_mode]()
-        # else: print('suck')
+        if self.current_mode in PRIMITIVES:
+            PRIMITIVES[self.current_mode]()
         
-
-        glDisable(GL_BLEND)
-        glDisable(GL_SCISSOR_TEST)
-        glDisable(GL_ALPHA_TEST)
-        # if self.test is not None:
-        #     glDisable(self.test)
+        if self.test is not None:
+            glDisable(self.test)
 
         
 
