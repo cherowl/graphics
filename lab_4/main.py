@@ -16,7 +16,7 @@ class GLInterface(QWidget):
         main_layout.addWidget(self.widget)
         self.setLayout(main_layout)
         self.setWindowTitle("Laboratory work #4")
-        self.setMinimumSize(600, 600)
+        self.setFixedSize(600, 600)
 
 
 def main():

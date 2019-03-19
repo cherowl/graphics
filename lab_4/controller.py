@@ -9,7 +9,7 @@ class GLWidget(QGLWidget):
         super(GLWidget, self).__init__(parent)     
         self.in_move = False
         self.focus_point = -1
-        self.int_points = [[100., 100.], [200., 200.], [300., 300.], [400., 400.], [500., 500.], [550., 550.]]
+        self.int_points = [[100., 100.], [200., 200.], [300., 300.], [400., 400.], [500., 500.]]
         self.polinomial = self.get_polynomial()
 
 
