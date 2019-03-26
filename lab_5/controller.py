@@ -8,8 +8,6 @@ class GLWidget(QGLWidget):
     def __init__(self, parent):
         super(GLWidget, self).__init__(parent)     
         self.flag = [[100, 100], [400,100], [400,400], [100,400]]
-        
-
         self.star = [[-0.19098301, -0.06205414],[-0.30901699437494745, -0.4253254041760194],[0, -0.200811415886227],[0.30901699437494745, -0.4253254041760194],[0.19098301, -0.06205414],[0.5, 0.16245984811645314],[0.1180339887498949, 0.16245984811645314],[0, 0.5257311121191336],[-0.1180339887498949, 0.16245984811645314],[-0.5, 0.16245984811645314]
 ]
 
@@ -30,7 +28,6 @@ class GLWidget(QGLWidget):
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
         glBegin(GL_POLYGON)
         for point in self.star:
-            print(point)
             glVertex2f(*point)
         glEnd()
         

@@ -35,6 +35,12 @@ def create_shader(shader_type, source):
     glShaderSource(shader, source)
     # Компилируем шейдер
     glCompileShader(shader)
+    result = glGetShaderiv(shader, GL_COMPILE_STATUS)
+    if result:
+        print(shader_type, 'succes compile')
+    else:
+        print('we suck')
+        return None
     # Возвращаем созданный шейдер
     return shader
 
@@ -93,6 +99,8 @@ varying vec4 vertex_color;
                 gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
                 vertex_color = gl_Color;
             }""")
+if not vertex:
+    exit()
 # Создаем фрагментный шейдер:
 # Определяет цвет каждого фрагмента как "смешанный" цвет его вершин
 fragment = create_shader(GL_FRAGMENT_SHADER, """
@@ -100,6 +108,8 @@ varying vec4 vertex_color;
             void main() {
                 gl_FragColor = vertex_color;
 }""")
+if not fragment:
+    exit()
 # Создаем пустой объект шейдерной программы
 program = glCreateProgram()
 # Приcоединяем вершинный шейдер к программе
