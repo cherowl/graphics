@@ -7,8 +7,9 @@ from OpenGL.GLUT import *
 from random import random
 import numpy as np
 from scipy.spatial import Delaunay
-# объявляем массив pointcolor глобальным (будет доступен во всей программе)
-global pointcolor
+# объявляем массив flag_color глобальным (будет доступен во всей программе)
+global flag_color
+global star_color
 
 width, height = 600,600
 star_lines = {
@@ -46,7 +47,6 @@ def gen_triangle_points(index):
         f_y_max_1 = funcs[2]
         f_y_max_2 = funcs[3]
         f_y_min = funcs[4]
-        # print(funcs[0][0], funcs[0][1])
         x = np.arange(funcs[0][0], funcs[0][1]+0.01, 0.01)
         if (len(x)%2):
             x = x[:-1]
@@ -64,14 +64,14 @@ def gen_triangle_points(index):
 
 
 pointdata_flag = gen_flag_points()
-# print(pointdata_flag)
-# print('\n\n-------------------------\n\n')
 point_triangle_1 = gen_triangle_points('first')
 point_triangle_2 = gen_triangle_points('second')
 point_triangle_3 = gen_triangle_points('third')
-# point_triangle_1 = gen_triangle_points('first')
-# print(point_triangle_1)
-pointcolor = [0, 0.6, 0.6, 1]
+
+
+flag_color = [[0.576, 0.204, 1]]*len(pointdata_flag)
+star_color = [[0.204, 0.627, 1]]*(len(point_triangle_1)+len(point_triangle_2)+len(point_triangle_3))
+
 
 def compile_shader(type, sourse) :
     id = glCreateShader(type)
@@ -82,7 +82,6 @@ def compile_shader(type, sourse) :
     if result == GL_FALSE :
         length = glGetShaderiv(id, GL_INFO_LOG_LENGTH)
         info = glGetShaderInfoLog(id)
-        # print('error ! : ', info)
         glDeleteShader(id)
         return None
     return id
@@ -106,11 +105,12 @@ def draw():
     glClear(GL_COLOR_BUFFER_BIT)                    # Очищаем экран и заливаем серым цветом
     glEnableClientState(GL_VERTEX_ARRAY)            # Включаем использование массива вершин
     glEnableClientState(GL_COLOR_ARRAY)
-    glColorPointer(3, GL_FLOAT, 0, pointcolor)
+    
+    glColorPointer(3, GL_FLOAT, 0, flag_color)
+    glVertexPointer(3, GL_FLOAT, 0, pointdata_flag)
+    glDrawArrays(GL_QUAD_STRIP, 0, len(pointdata_flag))
 
-    # glVertexPointer(3, GL_FLOAT, 0, pointdata_flag)
-    # glDrawArrays(GL_QUAD_STRIP, 0, len(pointdata_flag))
-
+    glColorPointer(3, GL_FLOAT, 0, star_color)
     glVertexPointer(3, GL_FLOAT, 0, point_triangle_1)
     glDrawArrays(GL_QUAD_STRIP, 0, len(point_triangle_1))
     glVertexPointer(3, GL_FLOAT, 0, point_triangle_2)
@@ -128,24 +128,29 @@ def draw():
     uniform float Velocity;
     uniform float Amp;
 
+    varying vec4 vertex_color;
+    
     void main(){
-        vec4 pos = vec4(vec3(gl_Vertex), 1.0);
+        vec4 pos = gl_Vertex;
         pos.y = Amp * sin( K * (pos.x - Velocity * Time) );
-
         gl_Position = gl_ModelViewProjectionMatrix * pos;
+
+        vertex_color = gl_Color;
     }
     """
 
     fragmentShader = """
-    uniform vec4 color;
+    varying vec4 vertex_color;
+
     void main() {
-    	gl_FragColor = color;
+    	//gl_FragColor = vec4(0, 0.6, 0.6, 1);
+        gl_FragColor = vertex_color;
     }"""
 
     shader = create__shader(vertexShader, fragmentShader)
     glUseProgram(shader)
 
-    time = (glutGet(GLUT_ELAPSED_TIME)/1000.)
+    time = glutGet(GLUT_ELAPSED_TIME)/1000.
     K = 10.0
     Velocity = 1.0
     Amp = 0.13
@@ -155,13 +160,13 @@ def draw():
         'K': glGetUniformLocation(shader, 'K'),
         'Velocity': glGetUniformLocation(shader, 'Velocity'),
         'Amp': glGetUniformLocation(shader, 'Amp'),
-        'color': glGetUniformLocation(shader, 'color')
+        # 'color': glGetUniformLocation(shader, 'color')
         }
     glUniform1f(uniforms['time'], time)
     glUniform1f(uniforms['K'], K)
     glUniform1f(uniforms['Velocity'], Velocity)
     glUniform1f(uniforms['Amp'], Amp)
-    glUniform4f(uniforms['color'], *pointcolor)
+    # glUniform4f(uniforms['color'], *flag_color)
 
 
     glutSwapBuffers()
