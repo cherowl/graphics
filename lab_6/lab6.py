@@ -4,7 +4,7 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 import numpy as np
 
-from generate import parallels, meridians, arcs, obj_borders
+from generate import parallels, meridians, arcs, cut_horizontal, cut_vertical, cut_angle
 
 
 vertexShader = """
@@ -55,21 +55,24 @@ def draw():
     glEnableClientState(GL_VERTEX_ARRAY)            # Включаем использование массива вершин
     glEnableClientState(GL_COLOR_ARRAY)
     
-    # glColorPointer(3, GL_FLOAT, 0, flag_color)
     for arc in parallels:
         glVertexPointer(3, GL_FLOAT, 0, arc)
         glDrawArrays(GL_LINE_STRIP, 0, len(arc))
 
-    for line in meridians:
-        glVertexPointer(3, GL_FLOAT, 0, line)
-        glDrawArrays(GL_LINE_STRIP, 0, len(line))
-    
     for arc in arcs:
         glVertexPointer(3, GL_FLOAT, 0, arc)
         glDrawArrays(GL_LINE_STRIP, 0, len(arc))
     
-    glVertexPointer(3, GL_FLOAT, 0, obj_borders)
-    glDrawArrays(GL_LINES, 0, len(obj_borders))
+
+    glVertexPointer(3, GL_FLOAT, 0, meridians)
+    glDrawArrays(GL_LINES, 0, len(meridians))
+
+    glVertexPointer(3, GL_FLOAT, 0, cut_horizontal)
+    glDrawArrays(GL_LINES, 0, len(cut_horizontal))
+    glVertexPointer(3, GL_FLOAT, 0, cut_vertical)
+    glDrawArrays(GL_LINES, 0, len(cut_vertical))
+    glVertexPointer(3, GL_FLOAT, 0, cut_angle)
+    glDrawArrays(GL_LINES, 0, len(cut_angle))
     
     glDisableClientState(GL_VERTEX_ARRAY)        # Отключаем использование массива вершин
     glDisableClientState(GL_COLOR_ARRAY)         # Отключаем использование массива цветов
@@ -89,8 +92,9 @@ def main():
     glutIdleFunc(draw)
     glClearColor(0.2, 0.2, 0.2, 1)
 
-    glRotatef(-65, 1, 0, 0)     # Поворот шейдера в нужную проекцию
+    glRotatef(-50, 1, 0, 0)     # Поворот фигуры в нужную проекцию
     glRotatef(5, 0, 1, 0)
+    glRotatef(45, 0, 0, 1)
 
     glutMainLoop()
 

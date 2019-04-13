@@ -21,10 +21,9 @@ arcs_horizontal_step = 4
 
 arcs_step = np.linspace(0, 1, arcs_horizontal_step)[1:-1]
 arcs = np.empty([2*(arcs_horizontal_step-2), angle_partitioning, 3])
-print(arcs_step.shape)
+
 
 for i in range(arcs_horizontal_step-2):
-	arcs[2*i] = parallels[0]*np.array([arcs_step[i], arcs_step[i], 1])
+	np.concatenate((parallels, parallels[0]*np.array([arcs_step[i], arcs_step[i], 1]),))
+	arcs[2*i] = 
 	arcs[2*i + 1] = parallels[-1]*np.array([arcs_step[i], arcs_step[i], 1])
-
-print(arcs)
