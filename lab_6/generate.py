@@ -43,3 +43,6 @@ cut_vertical = np.concatenate((cut_vertical,
 
 cut_angle = np.array([[[0,0,z_start], parallels[0][i]] for i in range(angle_partitioning)])[1:-1].reshape((angle_partitioning-2)*2, 3)
 cut_angle = np.concatenate((cut_angle, cut_angle+np.array([0, 0, sector_height])))
+
+
+cuts = np.concatenate((cut_horizontal, cut_vertical, cut_angle))

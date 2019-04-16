@@ -4,23 +4,12 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 import numpy as np
 
-from generate import parallels, meridians, arcs, cut_horizontal, cut_vertical, cut_angle
+from generate import parallels, meridians, arcs, cuts
+from events import mouse, move_camera, move_around_camera, scalar_matrix, ModelMatrix
+from shaders import vertexShader, fragmentShader
 
 
-vertexShader = """
-    varying vec4 vertex_color;
-    
-    void main(){
-        gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-        vertex_color = gl_Color;
-    }
-"""
-fragmentShader = """
-    //varying vec4 vertex_color;
 
-    void main() {
-        gl_FragColor = vec4(1,0,0,1); //vertex_color;
-}"""
 
 def compile_shader(type, sourse) :
     shader = glCreateShader(type)
@@ -67,12 +56,8 @@ def draw():
     glVertexPointer(3, GL_FLOAT, 0, meridians)
     glDrawArrays(GL_LINES, 0, len(meridians))
 
-    glVertexPointer(3, GL_FLOAT, 0, cut_horizontal)
-    glDrawArrays(GL_LINES, 0, len(cut_horizontal))
-    glVertexPointer(3, GL_FLOAT, 0, cut_vertical)
-    glDrawArrays(GL_LINES, 0, len(cut_vertical))
-    glVertexPointer(3, GL_FLOAT, 0, cut_angle)
-    glDrawArrays(GL_LINES, 0, len(cut_angle))
+    glVertexPointer(3, GL_FLOAT, 0, cuts)
+    glDrawArrays(GL_LINES, 0, len(cuts))
     
     glDisableClientState(GL_VERTEX_ARRAY)        # Отключаем использование массива вершин
     glDisableClientState(GL_COLOR_ARRAY)         # Отключаем использование массива цветов
@@ -80,17 +65,26 @@ def draw():
     shader = create__shader(vertexShader, fragmentShader)
     glUseProgram(shader)
 
+    modelMatIdx = glGetUniformLocation(shader, "modelMatrix")
+    # print(ModelMatrix)
+    glUniformMatrix4fv(modelMatIdx, 1, GL_FALSE, ModelMatrix)
+
     glutSwapBuffers()
 
 def main():
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
     glutInitWindowSize(600, 600)
-    glutInitWindowPosition(100, 100)
+    glutInitWindowPosition(100, 0)
     glutInit(sys.argv)
     glutCreateWindow(b"Shaders!")
     glutDisplayFunc(draw)
+    glutMouseFunc(mouse)
+    glutMotionFunc(move_camera)
+    glutPassiveMotionFunc(move_around_camera)
+    
     glutIdleFunc(draw)
     glClearColor(0.2, 0.2, 0.2, 1)
+
 
     glRotatef(-50, 1, 0, 0)     # Поворот фигуры в нужную проекцию
     glRotatef(5, 0, 1, 0)
