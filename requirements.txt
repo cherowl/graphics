@@ -1,3 +1,5 @@
 PyOpenGL >= 3.1.0
 PyQt5 >= 5.12
 scipy >= 1.2.1
+numpy >= 1.16
+pyglm >= 0.5
